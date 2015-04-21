@@ -17,3 +17,6 @@
 - name: "Users: put keys"
   authorized_key: user="{{ lookup('env', 'USER') }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub' ) }}" state=present
   tags: vagrant
+
+- name: show ip addresses
+  debug: var=ansible_all_ipv4_addresses
