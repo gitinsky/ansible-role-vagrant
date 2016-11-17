@@ -1,7 +1,7 @@
 ---
 - name: install libselinux-python binary for Ansible to work
   yum: name=libselinux-python state=present
-  when: ansible_pkg_mgr == "yum"
+  when: "{{ ansible_pkg_mgr == 'yum' and not ansible_selinux }}"
 
 - name: Create wheel group
   group: name=wheel state=present
