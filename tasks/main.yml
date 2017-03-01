@@ -5,22 +5,18 @@
 
 - name: Create wheel group
   group: name=wheel state=present
-  tags: vagrant
 
 - name: wheel sudoers
-  template: src=sudoers.d/wheel-nopasswd dest=/etc/sudoers.d/wheel-nopasswd
+  copy: content="%wheel        ALL=(ALL) NOPASSWD{{':'}} ALL\n" dest=/etc/sudoers.d/wheel-nopasswd
             owner=root
             group=root
             mode=0440
-  tags: vagrant
 
 - name: "Users: create"
   user: name="{{ lookup('env', 'USER') }}" shell=/bin/bash groups=wheel append=yes
-  tags: vagrant
 
 - name: "Users: put keys"
   authorized_key: user="{{ lookup('env', 'USER') }}" key="{{ lookup('file', '~/.ssh/id_rsa.pub' ) }}" state=present
-  tags: vagrant
 
 - name: show ip addresses
   debug: var=ansible_all_ipv4_addresses
